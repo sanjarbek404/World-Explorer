@@ -32,6 +32,22 @@ export async function getCountryByCode(code: string): Promise<Country | null> {
   }
 }
 
+export async function getBorderCountries(codes: string[]): Promise<Country[]> {
+  if (!codes || codes.length === 0) return [];
+  try {
+    const res = await fetch(`${BASE_URL}/alpha?codes=${codes.join(',')}&fields=name,cca3,flags,cca2`, { next: { revalidate: 3600 } });
+    if (!res.ok) {
+      console.error(`Failed to fetch border countries, status: ${res.status}`);
+      return [];
+    }
+    const data: Country[] = await res.json();
+    return data;
+  } catch (error) {
+    console.error("Fetch error in getBorderCountries:", error);
+    return [];
+  }
+}
+
 export async function searchCountries(name: string): Promise<Country[]> {
   try {
     const res = await fetch(`${BASE_URL}/name/${name}`, { next: { revalidate: 3600 } });

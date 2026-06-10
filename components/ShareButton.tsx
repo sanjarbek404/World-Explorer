@@ -40,20 +40,17 @@ export default function ShareButton({ countryName }: ShareButtonProps) {
   return (
     <button
       onClick={handleShare}
-      className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-blue-50 hover:bg-blue-100 dark:bg-blue-900/30 dark:hover:bg-blue-800/40 text-blue-600 dark:text-blue-400 font-medium rounded-xl transition-colors focus:outline-none focus:ring-4 focus:ring-blue-100 dark:focus:ring-blue-900/50"
+      className={clsx(
+        "p-3.5 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus:outline-none focus:ring-4 focus:ring-blue-100 dark:focus:ring-blue-900/40 shadow-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 group",
+        copied && "border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-900/20"
+      )}
       aria-label="Ulashish"
       title="Ulashish"
     >
       {copied ? (
-        <>
-          <Check className="w-4 h-4 text-green-500" />
-          <span className="text-green-500">Nusxalandi</span>
-        </>
+        <Check className="w-6 h-6 text-green-500 scale-110 transition-transform" />
       ) : (
-        <>
-          <Share2 className="w-4 h-4" />
-          <span>Ulashish</span>
-        </>
+        <Share2 className="w-6 h-6 text-slate-400 dark:text-slate-500 group-hover:text-slate-600 dark:group-hover:text-slate-300 transition-colors" />
       )}
     </button>
   );

@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'uz_UZ',
-    url: 'world-explorer-404.vercel.app',
+    url: 'https://world-explorer-404.vercel.app/',
     title: 'WorldExplorer',
     description: "Dunyo davlatlari haqida ma'lumotlar platformasi.",
     siteName: 'WorldExplorer',
@@ -30,40 +30,42 @@ export const metadata: Metadata = {
 export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <html lang="uz" suppressHydrationWarning>
-      <body className="min-h-screen flex flex-col bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300">
+      <body className="min-h-screen flex flex-col bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
-          disableTransitionOnChange={false}
+          disableTransitionOnChange
         >
           {/* Asosiy Yuqori Navbar */}
-          <header className="sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 border-b border-slate-200/60 dark:border-slate-800/60 shadow-sm backdrop-blur-md transition-colors duration-300">
+          <header className="sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 border-b border-slate-200/60 dark:border-slate-800/60 shadow-sm backdrop-blur-md">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex justify-between items-center h-16">
                 
                 {/* Sayt Logotipi */}
-                <Link href="/" className="flex items-center gap-2 group">
-                  <span className="text-2xl transition-transform group-hover:scale-110">🌍</span>
-                  <span className="font-bold text-xl tracking-tight text-slate-800 dark:text-slate-100">
-                    WorldExplorer
+                <Link href="/" className="flex items-center gap-1.5 sm:gap-2 group shrink-0">
+                  <span className="text-2xl sm:text-3xl transition-transform group-hover:scale-110">🌍</span>
+                  <span className="font-extrabold text-lg sm:text-xl tracking-tight text-slate-800 dark:text-slate-100 hidden min-[400px]:block">
+                    World<span className="text-blue-600 dark:text-blue-400">Explorer</span>
                   </span>
                 </Link>
                 
                 {/* Navigatsiya Linklari */}
-                <div className="flex items-center space-x-6">
-                  <nav className="flex space-x-4 sm:space-x-6">
+                <div className="flex items-center gap-4 sm:gap-6 ml-auto">
+                  <nav className="flex items-center gap-4 sm:gap-6">
                     <Link 
                       href="/" 
-                      className="text-sm font-medium text-slate-600 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400 transition-colors"
+                      className="text-sm sm:text-base font-semibold text-slate-600 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400 transition-colors whitespace-nowrap"
                     >
-                      Bosh sahifa
+                      <span className="hidden sm:inline">Bosh sahifa</span>
+                      <span className="sm:hidden">Asosiy</span>
                     </Link>
                     <Link 
                       href="/favorites" 
-                      className="text-sm font-medium text-slate-600 hover:text-red-500 dark:text-slate-300 dark:hover:text-red-400 transition-colors flex items-center gap-1"
+                      className="text-sm sm:text-base font-semibold text-slate-600 hover:text-red-500 dark:text-slate-300 dark:hover:text-red-400 transition-colors flex items-center gap-1 whitespace-nowrap"
                     >
-                      <span>Sevimlilar</span>
+                      <span className="hidden sm:inline">Sevimlilar</span>
+                      <span className="sm:hidden">Sevimli</span>
                       <span className="text-red-400">❤️</span>
                     </Link>
                   </nav>
@@ -83,7 +85,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
           <ScrollToTop />
 
           {/* Sayt Podvali (Footer) */}
-          <footer className="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 mt-auto py-8 transition-colors duration-300">
+          <footer className="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 mt-auto py-8">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center space-y-2">
               <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">
                 REST Countries API • Next.js bilan qurilgan

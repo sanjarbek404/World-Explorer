@@ -25,7 +25,7 @@ Loyiha eng zamonaviy texnologiyalar yordamida qurilgan:
 
 1. Repozitoriyni nusxalang:
    ```bash
-   https://github.com/sanjarbek404/World-Explorer.git
+   git clone https://github.com/sanjarbek404/World-Explorer.git
    cd world-explorer
    ```
 

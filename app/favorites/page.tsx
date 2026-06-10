@@ -45,7 +45,6 @@ export default function FavoritesPage() {
       // Ro'yxat bo'sh bo'lganda state ni tozalash
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setFavoriteCountries([]);
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsLoading(false);
     }
 
