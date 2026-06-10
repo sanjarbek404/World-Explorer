@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'uz_UZ',
-    url: 'https://world-explorer.vercel.app',
+    url: 'world-explorer-404.vercel.app',
     title: 'WorldExplorer',
     description: "Dunyo davlatlari haqida ma'lumotlar platformasi.",
     siteName: 'WorldExplorer',
