@@ -1,9 +1,9 @@
-import 'server-only';
+import "server-only";
 
-import { Country, Currencies, Languages } from '../types';
-import { serverEnv } from './env.server';
+import { Country, Currencies, Languages } from "../types";
+import { serverEnv } from "./env.server";
 
-const BASE_URL = 'https://api.restcountries.com/countries/v5';
+const BASE_URL = "https://api.restcountries.com/countries/v5";
 
 type V5Capital = { name?: string };
 type V5Language = { iso639_1?: string; name?: string; native_name?: string };
@@ -43,27 +43,29 @@ function mapLanguages(languages?: V5Language[]): Languages | undefined {
   return Object.fromEntries(
     languages
       .filter((lang) => lang.iso639_1)
-      .map((lang) => [lang.iso639_1!, lang.name || lang.native_name || ''])
+      .map((lang) => [lang.iso639_1!, lang.name || lang.native_name || ""]),
   );
 }
 
-function mapCurrencies(currencies?: V5Country['currencies']): Currencies | undefined {
+function mapCurrencies(
+  currencies?: V5Country["currencies"],
+): Currencies | undefined {
   if (!currencies) return undefined;
 
   if (Array.isArray(currencies)) {
     return Object.fromEntries(
       currencies.map((currency, index) => [
         currency.code || String(index),
-        { name: currency.name || '', symbol: currency.symbol || '' },
-      ])
+        { name: currency.name || "", symbol: currency.symbol || "" },
+      ]),
     );
   }
 
   return Object.fromEntries(
     Object.entries(currencies).map(([code, currency]) => [
       code,
-      { name: currency.name || '', symbol: currency.symbol || '' },
-    ])
+      { name: currency.name || "", symbol: currency.symbol || "" },
+    ]),
   );
 }
 
@@ -73,32 +75,34 @@ export function mapV5ToCountry(country: V5Country): Country {
 
   return {
     name: {
-      common: country.names?.common || '',
-      official: country.names?.official || country.names?.common || '',
+      common: country.names?.common || "",
+      official: country.names?.official || country.names?.common || "",
     },
     flags: {
-      png: country.flag?.url_png || '',
-      svg: country.flag?.url_svg || '',
+      png: country.flag?.url_png || "",
+      svg: country.flag?.url_svg || "",
       alt: country.flag?.description,
     },
     population: country.population ?? 0,
     area: country.area?.kilometers ?? 0,
-    region: country.region || '',
+    region: country.region || "",
     subregion: country.subregion,
-    capital: country.capitals?.map((item) => item.name).filter(Boolean) as string[] | undefined,
+    capital: country.capitals?.map((item) => item.name).filter(Boolean) as
+      | string[]
+      | undefined,
     languages: mapLanguages(country.languages),
     currencies: mapCurrencies(country.currencies),
     borders: country.borders,
     latlng: lat !== undefined && lng !== undefined ? [lat, lng] : undefined,
-    cca2: country.codes?.alpha_2 || '',
-    cca3: country.codes?.alpha_3 || '',
+    cca2: country.codes?.alpha_2 || "",
+    cca3: country.codes?.alpha_3 || "",
     tld: country.tlds,
     timezones: country.timezones,
     continents: country.continents,
     maps: country.links
       ? {
-          googleMaps: country.links.google_maps || '',
-          openStreetMaps: country.links.open_street_maps || '',
+          googleMaps: country.links.google_maps || "",
+          openStreetMaps: country.links.open_street_maps || "",
         }
       : undefined,
   };
@@ -113,7 +117,10 @@ export async function fetchV5(path: string): Promise<V5Response> {
   const json: V5Response = await res.json();
 
   if (!res.ok || json.errors?.length) {
-    console.error('REST Countries API error:', json.errors?.[0]?.message || res.status);
+    console.error(
+      "REST Countries API error:",
+      json.errors?.[0]?.message || res.status,
+    );
     return { data: { objects: [] } };
   }
 
@@ -132,7 +139,7 @@ export async function fetchAllV5Countries(): Promise<Country[]> {
 
   while (hasMore) {
     const response = await fetchV5(
-      `?limit=${limit}&offset=${offset}&response_fields=names,codes,flag,population,region,capitals,area`
+      `?limit=${limit}&offset=${offset}&response_fields=names,codes,flag,population,region,capitals,area`,
     );
     const objects = response.data?.objects ?? [];
 
@@ -141,5 +148,7 @@ export async function fetchAllV5Countries(): Promise<Country[]> {
     offset += limit;
   }
 
-  return countries.map(mapV5ToCountry);
+  return countries
+    .map(mapV5ToCountry)
+    .filter((country) => country.cca3.length > 0);
 }
