@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useFavorites } from '@/hooks/useFavorites';
 import { Country } from '@/types';
-import { getCountryByCode } from '@/lib/api';
 import CountryCard from '@/components/CountryCard';
 import LoadingComponent from '@/components/Loading';
 import { HeartCrack, Trash2 } from 'lucide-react';
@@ -24,11 +23,15 @@ export default function FavoritesPage() {
     async function loadFavorites() {
       setIsLoading(true);
       try {
-        const promises = favorites.map((code) => getCountryByCode(code));
+        const promises = favorites.map(async (code) => {
+          const response = await fetch(`/api/countries/${encodeURIComponent(code)}`);
+          if (!response.ok) return null;
+          return response.json() as Promise<Country>;
+        });
         const results = await Promise.all(promises);
-        
+
         if (isMounted) {
-          setFavoriteCountries(results.filter((res): res is Country => res !== null));
+          setFavoriteCountries(results.filter((country): country is Country => country !== null));
         }
       } catch (error) {
         console.error("Failed to load favorites", error);
